@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Product | Shani Traders</title>
+<meta name="description" content="Product details, price and enquiry.">
+<meta name="theme-color" content="#1E252B">
+<link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=Hind:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-page="products">
+<div id="site-header"></div>
+<main id="main">
+<div class="wrap"><div id="pd"><p style="padding:48px 0">Loading…</p></div>
+<section id="related" class="section" style="padding-top:0" hidden><h2>More from this category</h2><div class="grid" id="rel"></div></section></div>
+</main>
+<div id="site-footer"></div>
+<script src="config.js"></script>
+<script src="app.js"></script>
+<script>
+(async () => {
+  const { $, esc, cat, card, loadProducts, params, priceHTML, media, productWA, svg } = ST;
+  let ps = [];
+  try { ps = await loadProducts(); } catch (e) { }
+  const p = ps.find(x => x.id === params.get('id'));
+  if (!p) { $('#pd').innerHTML = '<div class="empty" style="margin:48px 0"><p>This item is not available on the site right now.</p><a class="btn btn-dark" href="products.html">See all products</a></div>'; return; }
+  const c = cat(p.category);
+  document.title = p.name + ' | Shani Traders';
+  $('#pd').innerHTML = `<div class="product">
+    <div class="p-media">${p.inStock ? '' : '<span class="tag-out">Out of stock</span>'}${media(p)}</div>
+    <div>
+      <p class="crumb"><a href="products.html">Products</a> / <a href="products.html?cat=${encodeURIComponent(c.id)}">${esc(c.name)}</a></p>
+      <h1>${esc(p.name)}</h1>
+      <p class="price">${priceHTML(p)}</p>
+      <span class="stock${p.inStock ? '' : ' out'}">${p.inStock ? 'In stock' : 'Out of stock right now'}</span>
+      ${p.description ? `<p>${esc(p.description)}</p>` : ''}
+      <div class="buy">
+        <div class="qty"><button type="button" data-step="-1" aria-label="Less">−</button><input id="qty" type="number" min="1" value="1" inputmode="numeric" aria-label="Quantity in ${esc(p.unit)}"><button type="button" data-step="1" aria-label="More">+</button></div>
+        <span class="muted">${esc(p.unit)}</span>
+      </div>
+      <div class="buy">
+        ${p.inStock ? `<button class="btn btn-dark" data-add="${esc(p.id)}" data-qty="#qty">Add to enquiry list</button>` : ''}
+        <a class="btn btn-wa" id="wa" target="_blank" rel="noopener">${svg('wa')}${p.inStock ? 'Ask on WhatsApp' : 'Ask when it is back'}</a>
+      </div>
+      <dl class="facts">
+        ${p.brand ? `<dt>Brand</dt><dd>${esc(p.brand)}</dd>` : ''}
+        <dt>Sold per</dt><dd>${esc(p.unit)}</dd>
+        <dt>Category</dt><dd>${esc(c.name)}</dd>
+      </dl>
+    </div></div>`;
+  const q = $('#qty'), wa = $('#wa');
+  const sync = () => { wa.href = productWA(p, Math.max(1, parseInt(q.value, 10) || 1)); };
+  $('.qty').addEventListener('click', e => { const b = e.target.closest('[data-step]'); if (!b) return; q.value = Math.max(1, (parseInt(q.value, 10) || 1) + Number(b.dataset.step)); sync(); });
+  q.addEventListener('input', sync); sync();
+  const rel = ps.filter(x => x.category === p.category && x.id !== p.id).slice(0, 4);
+  if (rel.length) { $('#rel').innerHTML = rel.map(card).join(''); $('#related').hidden = false; }
+})();
+</script>
+</body>
+</html>

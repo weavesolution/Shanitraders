@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Shani Traders | Building material in Saraipali</title>
+<meta name="description" content="Cement, sariya, bricks, sand, pipes, wire, tiles and paint in Saraipali, Mahasamund. Check today's rates and send an enquiry on WhatsApp.">
+<meta name="theme-color" content="#1E252B">
+<link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=Hind:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-page="home">
+<div id="site-header"></div>
+<main id="main">
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <h1>Everything your building needs, from the foundation up.</h1>
+      <p class="hi" lang="hi">नींव से छत तक, सारा सामान एक ही दुकान पर।</p>
+      <p class="sub">Cement, sariya, bricks, sand, plumbing, wiring, tiles and paint in Saraipali. Make a list, send it to us, and we call back with the best rate and delivery time.</p>
+      <div class="hero-cta">
+        <a class="btn btn-dark" href="products.html">Browse products</a>
+        <a class="btn btn-wa" id="hero-wa" target="_blank" rel="noopener"></a>
+      </div>
+    </div>
+    <div class="board" aria-labelledby="rb-title">
+      <div class="board-stripe"></div>
+      <div class="board-head"><h2 id="rb-title">Today's rates</h2><time id="rb-date"></time></div>
+      <ul class="rates" id="rate-rows"><li class="rb-empty">Loading rates…</li></ul>
+      <p class="board-foot">Rates move with the market. <a href="enquiry.html">Send your list</a> for a confirmed price with delivery.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-head"><h2>Shop by stage of work</h2><p>Pick what you are building right now. Every item can be added to one enquiry list.</p></div>
+    <div class="cats" id="cat-grid"></div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0">
+  <div class="wrap">
+    <div class="section-head"><h2>How ordering works</h2></div>
+    <ol class="steps">
+      <li><h3>Make your list</h3><p>Add items and quantities from the catalogue. Not sure of the quantity? Write it in the message.</p></li>
+      <li><h3>Send it to us</h3><p>Send the list on WhatsApp or through the enquiry form. Both reach the shop straight away.</p></li>
+      <li><h3>Get a confirmed rate</h3><p>We call back with the final price, GST bill and delivery time to your site.</p></li>
+    </ol>
+  </div>
+</section>
+
+<section class="strip">
+  <div class="wrap">
+    <p>Building a house or a shop? Send the full material list once and get one rate for everything.</p>
+    <a class="btn btn-hv" href="enquiry.html">Start an enquiry</a>
+  </div>
+</section>
+</main>
+<div id="site-footer"></div>
+<script src="config.js"></script>
+<script src="app.js"></script>
+<script>
+(async () => {
+  const { $, esc, cat, CATS, inr, hasPrice, loadProducts, waLink, svg, S } = ST;
+  const wa = $('#hero-wa');
+  wa.href = waLink('Namaste ' + S.name + ', I want today\'s rates for building material.');
+  wa.innerHTML = svg('wa') + 'Ask on WhatsApp';
+  $('#rb-date').textContent = new Date().toLocaleDateString('en-IN', { day: 'numeric', month: 'short', year: 'numeric' });
+  let ps = [];
+  try { ps = await loadProducts(); }
+  catch (e) { $('#rate-rows').innerHTML = '<li class="rb-empty">Rates could not load. Call or WhatsApp us for today\'s prices.</li>'; }
+  if (ps.length) {
+    const feat = ps.filter(p => p.featured);
+    $('#rate-rows').innerHTML = (feat.length ? feat : ps).slice(0, 7).map(p => `<li><a href="product.html?id=${encodeURIComponent(p.id)}">
+      <span class="rb-name">${esc(p.name)}<small>${esc(p.brand || cat(p.category).name)}</small>${p.inStock ? '' : '<span class="rb-out">Out of stock</span>'}</span>
+      ${hasPrice(p) ? `<span class="rb-price">${inr(p.price)}<small>/${esc(p.unit)}</small></span>` : '<span class="rb-price ask">Ask</span>'}
+    </a></li>`).join('');
+  }
+  $('#cat-grid').innerHTML = CATS.map(c => {
+    const n = ps.filter(p => p.category === c.id).length;
+    return `<a class="cat" href="products.html?cat=${c.id}">${ST.icon(c.icon)}
+      <span class="cat-stage">${esc(c.stage)}</span><h3>${esc(c.name)}</h3>
+      <span class="cat-count">${ps.length ? (n ? n + (n === 1 ? ' item' : ' items') : 'Ask us') : esc(c.blurb)}</span></a>`;
+  }).join('');
+})();
+</script>
+</body>
+</html>

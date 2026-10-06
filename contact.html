@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Contact | Shani Traders, Saraipali</title>
+<meta name="description" content="Address, phone, WhatsApp and timings of Shani Traders, Main Road Patsendri, Saraipali.">
+<meta name="theme-color" content="#1E252B">
+<link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=Hind:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-page="contact">
+<div id="site-header"></div>
+<main id="main">
+<section class="page-head"><div class="wrap"><h1>Contact</h1><p>Call, WhatsApp or visit the shop.</p></div></section>
+<div class="wrap contact">
+  <div class="panel">
+    <dl id="cinfo"></dl>
+    <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:22px" id="cbtns"></div>
+  </div>
+  <iframe class="map" id="map" title="Shop location on map" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+</div>
+</main>
+<div id="site-footer"></div>
+<script src="config.js"></script>
+<script src="app.js"></script>
+<script>
+(() => {
+  const { $, esc, S, waLink, svg } = ST;
+  const tel = String(S.phone).replace(/[^\d+]/g, '');
+  $('#cinfo').innerHTML = `<dt>Address</dt><dd>${esc(S.address)}</dd>
+    <dt>Phone</dt><dd><a href="tel:${tel}">${esc(S.phone)}</a></dd>
+    <dt>Email</dt><dd><a href="mailto:${esc(S.email)}">${esc(S.email)}</a></dd>
+    <dt>Shop timings</dt><dd>${esc(S.hours)}</dd>
+    <dt>GSTIN</dt><dd>${esc(S.gstin)}</dd>`;
+  $('#cbtns').innerHTML = `<a class="btn btn-wa" target="_blank" rel="noopener" href="${waLink('Namaste ' + S.name + ', I have an enquiry.')}">${svg('wa')}WhatsApp</a>
+    <a class="btn btn-dark" href="tel:${tel}">Call the shop</a><a class="btn btn-ghost" href="enquiry.html">Enquiry form</a>`;
+  $('#map').src = 'https://www.google.com/maps?q=' + encodeURIComponent(S.mapQuery) + '&output=embed';
+})();
+</script>
+</body>
+</html>
