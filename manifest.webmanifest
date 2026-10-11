@@ -1,0 +1,24 @@
+{
+  "name": "Shani Traders",
+  "short_name": "Shani Traders",
+  "description": "Order building material and hardware from Shani Traders, Saraipali. Earn points on every order.",
+  "id": "./app.html",
+  "start_url": "./app.html?source=app",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "lang": "en-IN",
+  "categories": ["shopping", "business"],
+  "icons": [
+    { "src": "images/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "images/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "images/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Search", "url": "./app.html#/search", "icons": [{ "src": "images/icon-192.png", "sizes": "192x192" }] },
+    { "name": "My orders", "url": "./app.html#/orders", "icons": [{ "src": "images/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Rewards", "url": "./app.html#/rewards", "icons": [{ "src": "images/icon-192.png", "sizes": "192x192" }] }
+  ]
+}
