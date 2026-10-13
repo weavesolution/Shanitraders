@@ -9,8 +9,8 @@ window.SHOP = {
   taglineHi: "बिल्डिंग मटेरियल, सरायपाली",
 
   // WhatsApp number with country code, digits only (91 + 10-digit mobile)
-  whatsapp: "919399893129",
-  phone: "+91 93998 93129",
+  whatsapp: "919203593129",
+  phone: "+91 92035 93129",
   email: "shanitraders52@gmail.com",
 
   address: "Main Road, Patsendri, Saraipali, Dist. Mahasamund, Chhattisgarh",
